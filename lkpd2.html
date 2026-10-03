@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<title>LKPD SPLTV</title>
+<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --navy:#0B2E59; --blue:#1565C0; --mid:#42A5F5;
+    --light:#E3F2FD; --pale:#F4F9FF; --accent:#FFB300;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  @page{size:A4;margin:0}
+  body{font-family:'Nunito',sans-serif;color:#1d2b3a;background:#cfd8e3;font-size:11.5pt;line-height:1.5}
+  .page{width:210mm;min-height:297mm;margin:10mm auto;background:#fff;position:relative;
+        padding:16mm 16mm 20mm;overflow:hidden;page-break-after:always}
+  @media print{body{background:#fff}.page{margin:0;box-shadow:none}}
+  .page::before{content:"";position:absolute;top:-60px;right:-60px;width:200px;height:200px;
+        border-radius:50%;background:var(--light);z-index:0}
+  .page::after{content:"";position:absolute;bottom:-80px;left:-80px;width:220px;height:220px;
+        border-radius:50%;background:var(--pale);z-index:0}
+  .page>*{position:relative;z-index:1}
+  .footer{position:absolute;bottom:8mm;left:16mm;right:16mm;display:flex;justify-content:space-between;
+        font-size:9pt;color:var(--blue);border-top:2px dashed var(--mid);padding-top:4px}
+
+  /* Header */
+  .hero{background:linear-gradient(135deg,var(--navy),var(--blue) 60%,var(--mid));color:#fff;
+        border-radius:18px;padding:18px 22px;margin-bottom:16px;position:relative;overflow:hidden}
+  .hero .tag{display:inline-block;background:var(--accent);color:var(--navy);font-weight:800;
+        font-size:9pt;padding:3px 12px;border-radius:20px;margin-bottom:6px;letter-spacing:1px}
+  .hero h1{font-family:'Fredoka',sans-serif;font-size:24pt;line-height:1.1}
+  .hero p{opacity:.9;margin-top:4px}
+  .hero .deco{position:absolute;right:18px;top:12px;font-family:'Fredoka';font-size:46pt;opacity:.18}
+
+  .identity{display:grid;grid-template-columns:1fr 2fr;gap:10px;margin-bottom:16px}
+  .field{background:var(--pale);border:2px solid var(--light);border-radius:12px;padding:8px 12px}
+  .field label{font-weight:800;color:var(--blue);font-size:9.5pt;display:block}
+  .field .line{border-bottom:1.5px dotted var(--mid);height:22px}
+
+  /* Cards */
+  .card{border:2px solid var(--light);border-radius:16px;padding:14px 16px;margin-bottom:14px;background:#fff}
+  .card-head{display:flex;align-items:center;gap:10px;margin-bottom:8px}
+  .badge{background:var(--blue);color:#fff;font-family:'Fredoka';font-weight:600;
+        width:38px;height:38px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:16pt;flex-shrink:0}
+  .card-head h2{font-family:'Fredoka';color:var(--navy);font-size:15pt;line-height:1}
+  .card-head small{display:block;color:var(--mid);font-weight:700;font-size:9pt;font-family:'Nunito'}
+
+  .mission{background:linear-gradient(90deg,var(--light),#fff);border-left:6px solid var(--accent);
+        border-radius:10px;padding:10px 14px;margin-bottom:10px}
+  .mission b{color:var(--navy)}
+  ol.steps{counter-reset:s;list-style:none}
+  ol.steps li{counter-increment:s;position:relative;padding-left:32px;margin-bottom:6px}
+  ol.steps li::before{content:counter(s);position:absolute;left:0;top:1px;width:22px;height:22px;border-radius:50%;
+        background:var(--mid);color:#fff;font-weight:800;font-size:9.5pt;display:flex;align-items:center;justify-content:center}
+
+  table{width:100%;border-collapse:separate;border-spacing:0;border-radius:12px;overflow:hidden;
+        border:2px solid var(--blue);margin-top:6px}
+  th{background:var(--blue);color:#fff;font-weight:800;padding:8px 6px;font-size:10pt}
+  td{border-top:1.5px solid var(--light);border-left:1.5px solid var(--light);height:34px;padding:4px 8px}
+  td:first-child{border-left:none;text-align:center;font-weight:800;color:var(--blue);background:var(--pale);width:70px}
+  tr:nth-child(even) td:not(:first-child){background:#fbfdff}
+
+  .q{margin:8px 0 12px}
+  .q p{font-weight:700}
+  .q p span{display:inline-block;background:var(--navy);color:#fff;border-radius:6px;padding:0 7px;margin-right:6px;font-size:10pt}
+  .answer{border:1.5px dashed var(--mid);border-radius:10px;margin-top:6px;padding:6px 10px;
+        background:repeating-linear-gradient(transparent 0 25px,#cfe3f7 25px 26px);background-position:0 6px}
+  .answer::before{content:"✎ Jawab:";font-weight:800;color:var(--blue);font-size:9.5pt}
+  .h2{min-height:70px}.h3{min-height:100px}.h5{min-height:160px}.hbig{min-height:430px}
+
+  .var-chips{display:flex;gap:8px;margin:8px 0}
+  .chip{flex:1;text-align:center;background:var(--light);border-radius:12px;padding:6px;font-weight:700;color:var(--navy);font-size:10pt}
+  .chip i{font-family:'Fredoka';font-style:italic;font-size:15pt;color:var(--blue);display:block}
+  .tip{background:#FFF8E1;border-left:5px solid var(--accent);border-radius:8px;padding:8px 12px;font-size:10pt;margin-top:8px}
+  .eq{font-family:'Fredoka';color:var(--blue);font-weight:500}
+</style>
+</head>
+<body>
+
+<!-- ================= HALAMAN 1 ================= -->
+<div class="page">
+  <div class="hero">
+    <div class="deco">a+b+c</div>
+    <span class="tag">LEMBAR KERJA PESERTA DIDIK</span>
+    <h1>Sistem Persamaan Linear<br>Tiga Variabel (SPLTV)</h1>
+    <p>🛒 Misteri Harga di Toko Kelas</p>
+  </div>
+
+  <div class="identity">
+    <div class="field"><label>Kelompok</label><div class="line"></div></div>
+    <div class="field"><label>Anggota</label><div class="line"></div></div>
+  </div>
+
+  <div class="card">
+    <div class="card-head"><div class="badge">!</div><h2>Petunjuk LKPD<small>Baca sebelum memulai</small></h2></div>
+    <div class="mission"><b>🎯 Misi kalian:</b> menentukan harga satuan <b>kue sus</b>, <b>risoles</b>, dan <b>pisang cokelat</b> hanya dari struk belanja.</div>
+    <ol class="steps">
+      <li>Kerjakan bersama kelompok dan tulis jawaban pada ruang yang tersedia.</li>
+      <li>Ambil 3 kartu pesanan dari guru dan belanjalah 3 kali di Toko Kelas, satu kartu setiap belanja.</li>
+      <li>Simpan setiap struk dan tempelkan pada Kegiatan 1.</li>
+      <li>Bertanyalah kepada guru jika kelompok mengalami kesulitan setelah berdiskusi.</li>
+    </ol>
+  </div>
+
+  <div class="card">
+    <div class="card-head"><div class="badge">1</div><h2>Kegiatan 1<small>Catat jumlah barang dan total bayar dari setiap struk</small></h2></div>
+    <table>
+      <tr><th>Belanja ke-</th><th>Banyak<br>Kue Sus</th><th>Banyak<br>Risoles</th><th>Banyak<br>Pisang Cokelat</th><th>Total Bayar<br>(Rp)</th></tr>
+      <tr><td>1</td><td></td><td></td><td></td><td></td></tr>
+      <tr><td>2</td><td></td><td></td><td></td><td></td></tr>
+      <tr><td>3</td><td></td><td></td><td></td><td></td></tr>
+    </table>
+  </div>
+
+  <div class="card">
+    <div class="card-head"><div class="badge">2</div><h2>Kegiatan 2<small>Diskusikan pertanyaan berikut bersama kelompok</small></h2></div>
+    <div class="q"><p><span>1</span>Berdasarkan struk belanja, informasi apa saja yang kalian dapatkan?</p><div class="answer h2"></div></div>
+    <div class="q"><p><span>2</span>Cukupkah satu struk untuk menemukan harga kue sus, risoles, dan pisang cokelat? Jelaskan alasanmu!</p><div class="answer h2"></div></div>
+    <div class="q"><p><span>3</span>Bisakah kalian menebak harga satuan dengan coba-coba? Apakah cara tersebut efisien? Jelaskan alasanmu!</p><div class="answer h2"></div></div>
+  </div>
+  <div class="footer"><span>LKPD Matematika • SPLTV</span><span>Halaman 1</span></div>
+</div>
+
+<!-- ================= HALAMAN 2 ================= -->
+<div class="page">
+  <div class="card">
+    <div class="card-head"><div class="badge">3</div><h2>Kegiatan 3<small>Membuat model matematika</small></h2></div>
+    <p>Misalkan harga satuan (dalam ribuan rupiah):</p>
+    <div class="var-chips">
+      <div class="chip"><i>a</i>Kue Sus</div>
+      <div class="chip"><i>b</i>Risoles</div>
+      <div class="chip"><i>c</i>Pisang Cokelat</div>
+    </div>
+    <p>Tentukan model matematika berdasarkan informasi dalam struk belanja!</p>
+    <table>
+      <tr><th style="width:90px">Struk</th><th>Persamaan</th><th style="width:60px">No.</th></tr>
+      <tr><td>1</td><td></td><td style="text-align:center;color:var(--blue);font-weight:800">(1)</td></tr>
+      <tr><td>2</td><td></td><td style="text-align:center;color:var(--blue);font-weight:800">(2)</td></tr>
+      <tr><td>3</td><td></td><td style="text-align:center;color:var(--blue);font-weight:800">(3)</td></tr>
+    </table>
+    <div class="q" style="margin-top:12px"><p>Kumpulan tiga persamaan di atas disebut <span style="background:var(--blue)">SPLTV</span> sistem persamaan linear tiga variabel. Mengapa sistem ini disebut "linear" dan "tiga variabel"? Jelaskan dengan kata-kata kalian.</p><div class="answer h3"></div></div>
+  </div>
+
+  <div class="card">
+    <div class="card-head"><div class="badge">4</div><h2>Kegiatan 4<small>Pilih strategi: eliminasi, substitusi, atau gabungan</small></h2></div>
+    <p>Ikuti langkah berikut atau buat langkah sendiri.</p>
+    <ol class="steps" style="margin-top:6px">
+      <li>Gunakan persamaan <span class="eq">(1)</span> dan <span class="eq">(2)</span> untuk menghasilkan persamaan baru <span class="eq">(4)</span>.</li>
+      <li>Gunakan persamaan <span class="eq">(2)</span> dan <span class="eq">(3)</span> (atau <span class="eq">(1)</span> dan <span class="eq">(3)</span>) untuk menghasilkan persamaan baru <span class="eq">(5)</span>.</li>
+      <li>Selesaikan SPLDV dari persamaan <span class="eq">(4)</span> dan <span class="eq">(5)</span> untuk mendapatkan dua variabel.</li>
+      <li>Substitusikan hasilnya ke salah satu persamaan awal untuk mendapatkan variabel ketiga.</li>
+    </ol>
+    <div class="answer hbig"></div>
+  </div>
+  <div class="footer"><span>LKPD Matematika • SPLTV</span><span>Halaman 2</span></div>
+</div>
+
+<!-- ================= HALAMAN 3 ================= -->
+<div class="page">
+  <div class="card">
+    <div class="card-head"><div class="badge">5</div><h2>Kegiatan 5<small>Cek kembali jawabanmu</small></h2></div>
+    <p>Substitusikan nilai <span class="eq">a</span>, <span class="eq">b</span>, dan <span class="eq">c</span> ke setiap persamaan, lalu bandingkan dengan total pada struk.</p>
+    <table>
+      <tr><th>Struk</th><th>Substitusi Harga ke Persamaan</th><th style="width:150px">Hasil</th><th style="width:70px">Sesuai?</th></tr>
+      <tr><td>1</td><td style="height:48px"></td><td></td><td style="text-align:center">☐</td></tr>
+      <tr><td>2</td><td style="height:48px"></td><td></td><td style="text-align:center">☐</td></tr>
+      <tr><td>3</td><td style="height:48px"></td><td></td><td style="text-align:center">☐</td></tr>
+    </table>
+  </div>
+
+  <div class="card">
+    <div class="card-head"><div class="badge">6</div><h2>Kegiatan 6<small>Terapkan hasil temuanmu</small></h2></div>
+    <div class="mission">🛍️ Tentukan total uang yang harus dibayar jika membeli <b>4 kue sus</b>, <b>3 risoles</b>, dan <b>5 pisang cokelat</b>!</div>
+    <div class="answer h5" style="min-height:220px"></div>
+    <div class="tip">💡 <b>Ingat:</b> nilai <i>a</i>, <i>b</i>, dan <i>c</i> dalam <b>ribuan rupiah</b>. Jangan lupa ubah kembali ke rupiah!</div>
+  </div>
+
+  <div class="card" style="background:linear-gradient(135deg,var(--light),#fff)">
+    <div class="card-head"><div class="badge">★</div><h2>Refleksi<small>Apa yang kamu pelajari hari ini?</small></h2></div>
+    <div class="answer h3"></div>
+  </div>
+  <div class="footer"><span>LKPD Matematika • SPLTV</span><span>Halaman 3</span></div>
+</div>
+
+</body>
+</html>
